@@ -11,7 +11,7 @@ import java.io.IOException;
 
 public class Main {
     public static String token = "3b41f5952d682d8b4f1fce64a97a2edb", from="MOW", to="VOG", start="2023-10-20", end="2023-10-25"; // default settings
-    public static String[] airports = {"MOW", "DVE", "SVO", "VOG", "MRV", "MCX"};
+    public static String[] airports = {"MOW", "ZRH", "HKG", "VOG", "MRV", "MCX"};
     public static void main(String[] args) throws IOException, ParseException {
         TicketParse tp = new TicketParse(); // create new instanse
         TicketParse.Ticket[] tickets = tp.allTickets(from, to, start, end, token); // get tickets
@@ -39,24 +39,28 @@ public class Main {
             public void actionPerformed(ActionEvent e) {
                 from = cbModel1.getSelectedItem().toString();
                 to = cbModel2.getSelectedItem().toString();
-                File f = new File("tickets_from_"+from+"_to_"+to+"_start_"+start+"_end_"+end+".atsf");
-                boolean del = f.delete();
-                if(del) System.out.println("Вышло");
-                model.clear();
-                TicketParse tp = new TicketParse(); // create new instanse
-                try {
-                    TicketParse.Ticket[] tickets = tp.allTickets(from, to, start, end, token);
-                    for (TicketParse.Ticket ticket : tickets) model.addElement("<html>Price: " + ticket.getPrice() + "<br> Company: " + ticket.getAirline() + "<html>");
-                } catch (IOException | ParseException ex) {
-                    throw new RuntimeException(ex);
+                if(!from.equals(to)) {
+                    File f = new File("tickets_from_" + from + "_to_" + to + "_start_" + start + "_end_" + end + ".atsf");
+                    boolean del = f.delete();
+                    if (del) System.out.println("Вышло");
+                    model.clear();
+                    TicketParse tp = new TicketParse(); // create new instanse
+                    try {
+                        TicketParse.Ticket[] tickets = tp.allTickets(from, to, start, end, token);
+                        for (TicketParse.Ticket ticket : tickets)
+                            model.addElement("<html>Price: " + ticket.getPrice() + "<br> Company: " + ticket.getAirline() + "<html>");
+                    } catch (IOException | ParseException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                    if (model.getSize() < 2){
+                        model.addElement("Nothing");
+                    }
+                    contentsVertical.updateUI();
+                    frame.setVisible(true);
+                } else {
+                    model.clear();
+                    model.addElement("Can't load tickets");
                 }
-                try{
-                    model.getElementAt(0);
-                } catch (Exception exept){
-                    model.addElement("Tickets doesn't exist");
-                }
-                contentsVertical.updateUI();
-                frame.setVisible(true);
             }
         });
         button.setText("Reload list");

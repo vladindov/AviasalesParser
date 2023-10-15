@@ -94,6 +94,11 @@ public class TicketParse {
             if(airline.equals("5N")) return "Smartavia";
             if(airline.equals("N4")) return "Nord Wind";
             if(airline.equals("U6")) return "Ural";
+            if(airline.equals("G9")) return "Arabia";
+            if(airline.equals("QR")) return "Qatar";
+            if(airline.equals("EK")) return "Emirates";
+            if(airline.equals("WZ")) return "Red Wings";
+            if(airline.equals("PC")) return "Pegasus Hava Tasimaciligi";
             return airline;
         }
 
