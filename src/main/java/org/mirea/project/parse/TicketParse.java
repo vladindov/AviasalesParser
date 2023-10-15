@@ -88,6 +88,9 @@ public class TicketParse {
         }
 
         public String getAirline() {
+            if(airline.equals("DP")) return "Pobeda";
+            if(airline.equals("SU")) return "Aeroflot";
+            if(airline.equals("FV")) return "Rossiya";
             return airline;
         }
 

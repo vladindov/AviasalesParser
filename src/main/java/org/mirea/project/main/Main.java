@@ -12,8 +12,6 @@ public class Main {
         TicketParse tp = new TicketParse(); // create new instanse
         TicketParse.Ticket[] tickets = tp.allTickets(from, to, start, end, token); // get tickets
 
-        System.out.println(tickets[0].getPrice());
-
         createWindow(tickets);
     }
 
@@ -23,7 +21,7 @@ public class Main {
 
         list.setModel(model);
 
-        for (TicketParse.Ticket ticket : tickets) model.addElement("Price:" + ticket.getPrice() + "\n Company:" + ticket.getAirline());
+        for (TicketParse.Ticket ticket : tickets) model.addElement("Price: " + ticket.getPrice() + "\n Company: " + ticket.getAirline());
 
         MyFrame frame = new MyFrame();
         frame.add(new JScrollPane(list));
