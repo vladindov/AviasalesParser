@@ -91,6 +91,9 @@ public class TicketParse {
             if(airline.equals("DP")) return "Pobeda";
             if(airline.equals("SU")) return "Aeroflot";
             if(airline.equals("FV")) return "Rossiya";
+            if(airline.equals("5N")) return "Smartavia";
+            if(airline.equals("N4")) return "Nord Wind";
+            if(airline.equals("U6")) return "Ural";
             return airline;
         }
 
@@ -187,7 +190,9 @@ public class TicketParse {
 
         File f = new File("tickets_from_"+from+"_to_"+to+"_start_"+start+"_end_"+end+".atsf");
         if(f.exists()){
-            jArray = (JSONArray) parser.parse(new FileReader(f));
+            FileReader fr = new FileReader(f);
+            jArray = (JSONArray) parser.parse(fr);
+            fr.close();
         } else {
             URL parsingUrl = new URL("https://api.travelpayouts.com/aviasales/v3/prices_for_dates?origin="+from+"&"+
                     "&destination="+to+"&"+
