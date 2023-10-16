@@ -10,10 +10,11 @@ repositories {
 }
 
 dependencies {
-    testImplementation(platform("org.junit:junit-bom:5.9.1"))
-    testImplementation("org.junit.jupiter:junit-jupiter")
-    implementation("com.google.code.gson:gson:2.10.1")
-    implementation("com.googlecode.json-simple:json-simple:1.1.1")
+    testImplementation(platform("org.junit:junit-bom:5.9.1")) // дефолт
+    testImplementation("org.junit.jupiter:junit-jupiter") // дефолт
+    implementation("com.google.code.gson:gson:2.10.1") // обработка json
+    implementation("com.googlecode.json-simple:json-simple:1.1.1") // обработка json
+    implementation("com.toedter:jcalendar:1.4") // добавление календаря для выбора дат
 }
 
 tasks.test {

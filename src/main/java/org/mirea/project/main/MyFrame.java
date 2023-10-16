@@ -4,9 +4,9 @@ import javax.swing.*;
 
 public class MyFrame extends JFrame {
     MyFrame(){
-        this.setTitle("Aviasales парсер"); // title
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // or 3
-        this.setSize(500, 800); // set size of window
-        this.setVisible(true); // set our window visible
+        this.setTitle("Aviasales парсер"); // Ќазвание
+        this.setResizable(false); // отключаем изменение размера окна
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // or 3 // при нажатии креста выключать приложение
+        this.setSize(525, 800); // установка размера окна
     }
 }

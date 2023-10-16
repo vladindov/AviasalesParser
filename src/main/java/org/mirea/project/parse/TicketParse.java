@@ -7,26 +7,28 @@ import org.json.simple.parser.ParseException;
 
 import java.io.*;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class TicketParse {
-    // РєР»Р°СЃСЃ Р±РёР»РµС‚Р°
+    // класс билета
     public static class Ticket{
-        String origin; // РѕС‚РєСѓРґР°
-        String destination; // РєСѓРґР°
-        String origin_airport; // IATA-РєРѕРґ Р°СЌСЂРѕРїРѕСЂС‚Р° РѕС‚РїСЂР°РІР»РµРЅРёСЏ
-        String destination_airport; //  IATA-РєРѕРґ Р°СЌСЂРѕРїРѕСЂС‚Р° РїСЂРёР±С‹С‚РёСЏ
-        long price; // СЃС‚РѕРёРјРѕСЃС‚СЊ
-        String airline; //  IATA-РєРѕРґ РєРѕРјРїР°РЅРёРё
-        String flight_number; // РЅРѕРјРµСЂ СЂРµР№СЃР°
-        String departure_at; // РґР°С‚Р° РѕС‚РїСЂР°РІР»РµРЅРёСЏ
-        String return_at; // РґР°С‚Р° РІРѕР·РІСЂР°С‰РµРЅРёСЏ
-        long transfers; // РєРѕР»-РІРѕ РїРµСЂРµСЃР°РґРѕРє С‚СѓРґР°
-        long return_transfers; // РєРѕР»-РІРѕ РїРµСЂРµСЃР°РґРѕРє РѕР±СЂР°С‚РЅРѕ
-        long duration; // РѕР±С‰Р°СЏ РїСЂРѕРґРѕР»Р¶РёС‚РµР»СЊРЅРѕСЃС‚СЊ РїРµСЂРµР»С‘С‚Р° С‚СѓРґР°-РѕР±СЂР°С‚РЅРѕ РІ РјРёРЅСѓС‚Р°С….
-        long duration_to; // РїСЂРѕРґРѕР»Р¶РёС‚РµР»СЊРЅРѕСЃС‚СЊ РїРµСЂРµР»С‘С‚Р° РґРѕ РјРµСЃС‚Р° РЅР°Р·РЅР°С‡РµРЅРёСЏ РІ РјРёРЅСѓС‚Р°С….
-        long duration_back; // РїСЂРѕРґРѕР»Р¶РёС‚РµР»СЊРЅРѕСЃС‚СЊ РїРµСЂРµР»С‘С‚Р° РѕР±СЂР°С‚РЅРѕ РІ РјРёРЅСѓС‚Р°С….
-        String currency; // РІР°Р»СЋС‚Р°
-        String link; // СЃСЃС‹Р»РєР° РЅР° Р±РёР»РµС‚
+        String origin; // откуда
+        String destination; // куда
+        String origin_airport; // IATA-код аэропорта отправления
+        String destination_airport; //  IATA-код аэропорта прибытия
+        long price; // стоимость
+        String airline; //  IATA-код компании
+        String flight_number; // номер рейса
+        String departure_at; // дата отправления
+        String return_at; // дата возвращения
+        long transfers; // кол-во пересадок туда
+        long return_transfers; // кол-во пересадок обратно
+        long duration; // общая продолжительность перелёта туда-обратно в минутах.
+        long duration_to; // продолжительность перелёта до места назначения в минутах.
+        long duration_back; // продолжительность перелёта обратно в минутах.
+        String currency; // валюта
+        String link; // ссылка на билет
 
         public Ticket(String origin, String destination, String origin_airport, String destination_airport, long price, String airline, String flight_number, String departure_at, String return_at, long transfers, long return_transfers, long duration, long duration_to, long duration_back, String currency, String link) {
             this.origin = origin;
@@ -46,7 +48,7 @@ public class TicketParse {
             this.currency = currency;
             this.link = link;
         }
-
+        // getters & setters
         public String getOrigin() {
             return origin;
         }
@@ -86,7 +88,7 @@ public class TicketParse {
         public void setPrice(long price) {
             this.price = price;
         }
-
+        // обработка некоторых IATA кодов
         public String getAirline() {
             if(airline.equals("DP")) return "Pobeda";
             if(airline.equals("SU")) return "Aeroflot";
@@ -185,18 +187,27 @@ public class TicketParse {
         public void setLink(String link) {
             this.link = link;
         }
+        // переопределение toString() для правильного вывода
+        @Override
+        public String toString() {
+            return "<html>Время вылета «туда»: " + this.departure_at.split("T")[1] +
+                    ";  Время вылета «обратно»: " + this.return_at.split("T")[1] +
+                    " <br> Номер рейса: " + this.flight_number +
+                    " <br> Цена билета: " + this.getPrice() + "<br> Авиакомпания: " + this.getAirline() + "<html>";
+        }
     }
 
-    //
+    // метод парсинга json
     public Ticket[] allTickets(String from, String to, String start, String end, String token) throws IOException, ParseException {
         JSONParser parser = new JSONParser();
         Ticket[] ticketArray;
         JSONArray jArray;
 
         File f = new File("tickets_from_"+from+"_to_"+to+"_start_"+start+"_end_"+end+".atsf");
+        // проверка существования файла с рейсами
         if(f.exists()){
             FileReader fr = new FileReader(f);
-            jArray = (JSONArray) parser.parse(fr);
+            jArray = (JSONArray) parser.parse(fr); // достаём данные
             fr.close();
         } else {
             URL parsingUrl = new URL("https://api.travelpayouts.com/aviasales/v3/prices_for_dates?origin="+from+"&"+
@@ -206,14 +217,14 @@ public class TicketParse {
                     "&token="+token);
 
             JSONObject obj = (JSONObject) parser.parse(new InputStreamReader(parsingUrl.openStream()));
-            jArray = (JSONArray) obj.get("data");
+            jArray = (JSONArray) obj.get("data"); // парсим из json
 
             PrintWriter out = new PrintWriter("tickets_from_"+from+"_to_"+to+"_start_"+start+"_end_"+end+".atsf");
-            out.println(jArray);
+            out.println(jArray); // сохранение файла
             out.close();
         }
         ticketArray = new Ticket[jArray.size()];
-
+        // заполнение списка предложений
         for (int i = 0; i < jArray.size(); i++) {
             JSONObject object = (JSONObject) jArray.get(i);
             Ticket ticket = new Ticket((String) object.get("origin"),(String) object.get("destination"),
@@ -225,10 +236,6 @@ public class TicketParse {
             ticketArray[i] = ticket;
         }
 
-        return ticketArray;
-    }
-
-    public void Gay(Ticket[] ok){
-        ok[0].origin = "";
+        return ticketArray; // возвращаем список предложений
     }
 }
