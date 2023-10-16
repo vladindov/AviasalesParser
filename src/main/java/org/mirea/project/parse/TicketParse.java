@@ -7,8 +7,6 @@ import org.json.simple.parser.ParseException;
 
 import java.io.*;
 import java.net.URL;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 public class TicketParse {
     // класс билета

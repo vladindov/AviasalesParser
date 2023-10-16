@@ -6,8 +6,6 @@ import org.mirea.project.parse.TicketParse;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
