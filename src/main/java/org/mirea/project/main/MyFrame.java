@@ -4,9 +4,9 @@ import javax.swing.*;
 
 public class MyFrame extends JFrame {
     MyFrame(){
-        this.setTitle("Aviasales парсер"); // Название
-        this.setResizable(false); // отключаем изменение размера окна
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // or 3 // при нажатии креста выключать приложение
-        this.setSize(525, 800); // установка размера окна
+        this.setTitle("Aviasales РїР°СЂСЃРµСЂ"); // РќР°Р·РІР°РЅРёРµ
+        this.setResizable(false); // РѕС‚РєР»СЋС‡Р°РµРј РёР·РјРµРЅРµРЅРёРµ СЂР°Р·РјРµСЂР° РѕРєРЅР°
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // or 3 // РїСЂРё РЅР°Р¶Р°С‚РёРё РєСЂРµСЃС‚Р° РІС‹РєР»СЋС‡Р°С‚СЊ РїСЂРёР»РѕР¶РµРЅРёРµ
+        this.setSize(525, 800); // СѓСЃС‚Р°РЅРѕРІРєР° СЂР°Р·РјРµСЂР° РѕРєРЅР°
     }
 }

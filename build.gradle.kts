@@ -1,5 +1,6 @@
 plugins {
     id("java")
+    kotlin("jvm") version "1.9.20-RC"
 }
 
 group = "org.example"
@@ -10,13 +11,16 @@ repositories {
 }
 
 dependencies {
-    testImplementation(platform("org.junit:junit-bom:5.9.1")) // дефолт
-    testImplementation("org.junit.jupiter:junit-jupiter") // дефолт
-    implementation("com.google.code.gson:gson:2.10.1") // обработка json
-    implementation("com.googlecode.json-simple:json-simple:1.1.1") // обработка json
-    implementation("com.toedter:jcalendar:1.4") // добавление календаря для выбора дат
+    testImplementation(platform("org.junit:junit-bom:5.9.1")) // РґРµС„РѕР»С‚
+    testImplementation("org.junit.jupiter:junit-jupiter") // РґРµС„РѕР»С‚
+    implementation("com.google.code.gson:gson:2.10.1") // РѕР±СЂР°Р±РѕС‚РєР° json
+    implementation("com.googlecode.json-simple:json-simple:1.1.1") // РѕР±СЂР°Р±РѕС‚РєР° json
+    implementation("com.toedter:jcalendar:1.4") // РґРѕР±Р°РІР»РµРЅРёРµ РєР°Р»РµРЅРґР°СЂСЏ РґР»СЏ РІС‹Р±РѕСЂР° РґР°С‚
 }
 
 tasks.test {
     useJUnitPlatform()
+}
+kotlin {
+    jvmToolchain(21)
 }
